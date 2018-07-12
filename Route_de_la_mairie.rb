@@ -8,29 +8,16 @@ require './mails_ValOise'
 
 
 # ############VAUREAL####################
-# def get_the_email_of_a_townhal_from_its_webpage
-# 	page = Nokogiri::HTML(open("http://annuaire-des-mairies.com/95/vaureal.html"))
-# 	page.xpath('/html/body/div/main/section[2]/div/table/tbody/tr[4]/td[2]').each do |adress|
-# 		puts adress.text
-# 	end
-# end
+def get_the_email_of_a_townhal_from_its_webpage
+	page = Nokogiri::HTML(open("http://annuaire-des-mairies.com/95/vaureal.html"))
+puts page.xpath('/html/body/div/main/section[2]/div/table/tbody/tr[4]/td[2]').text
+end
+get_the_email_of_a_townhal_from_its_webpage
 
-# get_the_email_of_a_townhal_from_its_webpage
 
  
 
-# Pour avoir le nom de toutes les communes de le Val d'Oise
-
-def city_name
-	city = []
-	page = Nokogiri::HTML(open("http://annuaire-des-mairies.com/val-d-oise.html"))
-		page.xpath('//p/a').each do |name|
-			city << name.text
-		end
-	city
-end
-
-
+# Pour avoir l'url de toutes les communes du Val d'Oise
 
 def get_all_the_urls_of_val_doise_townhalls
 	tab_url =[]
@@ -43,10 +30,12 @@ def get_all_the_urls_of_val_doise_townhalls
 	tab_url
 end
 
-# en lançant  get_all_the_urls_of_val_doise_townhalls celui ci va me créer un tableau avec tous les urls que j'enregistre dans url_ValOise.rb
+# puts get_all_the_urls_of_val_doise_townhalls
 
 
-def mail_extract_url
+#Pour extraire tous les mails à partir de chaque url
+
+def mail_extract_on_url
 	tab_mail =[]
 	get_all_the_urls_of_val_doise_townhalls.each do |url|
 		page = Nokogiri::HTML(open(url))
@@ -55,11 +44,25 @@ def mail_extract_url
  	tab_mail
 end
 # en lançant mail_extract_url celui ci va récupérer les mails de chaque commune du 95 dans un tableau que j'enregistre dans mails_ValOise.rb
-# p mail_extract_url
+# puts mail_extract_on_url
+
+
+# Pour avoir le nom de toutes les communes du Val d'Oise
+
+def townhall_name
+	townhall = []
+	page = Nokogiri::HTML(open("http://annuaire-des-mairies.com/val-d-oise.html"))
+		page.xpath('//p/a').each do |name|
+			townhall << name.text
+		end
+	townhall
+end
+
+#Création du Hash
 
 def create_hash
- 	city_with_email = Hash[city_name.zip(mail_save)]
- 	city_with_email.each do |city, mail|
+ 	town_with_email = Hash[townhall_name.zip(mail_save)]
+ 	town_with_email.each do |city, mail|
  		puts "#{city} ===> #{mail}"
 	end
 end
