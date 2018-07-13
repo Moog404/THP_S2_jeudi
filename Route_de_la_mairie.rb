@@ -7,15 +7,14 @@ require './mails_ValOise'
 
 
 
-# ############VAUREAL####################
+# Pour récupérer le mail de la ville de Vaureal
+
 def get_the_email_of_a_townhal_from_its_webpage
 	page = Nokogiri::HTML(open("http://annuaire-des-mairies.com/95/vaureal.html"))
-puts page.xpath('/html/body/div/main/section[2]/div/table/tbody/tr[4]/td[2]').text
+ puts page.xpath('/html/body/div/main/section[2]/div/table/tbody/tr[4]/td[2]').text
 end
-get_the_email_of_a_townhal_from_its_webpage
+# get_the_email_of_a_townhal_from_its_webpage
 
-
- 
 
 # Pour avoir l'url de toutes les communes du Val d'Oise
 
@@ -27,7 +26,7 @@ def get_all_the_urls_of_val_doise_townhalls
 			mail = link['href'].sub(".","http://annuaire-des-mairies.com")
 			tab_url << mail
 		end
-	tab_url
+	puts tab_url
 end
 
 # puts get_all_the_urls_of_val_doise_townhalls
@@ -43,8 +42,9 @@ def mail_extract_on_url
  	end
  	tab_mail
 end
+# puts mail_extract_on_url 
 # en lançant mail_extract_url celui ci va récupérer les mails de chaque commune du 95 dans un tableau que j'enregistre dans mails_ValOise.rb
-# puts mail_extract_on_url
+
 
 
 # Pour avoir le nom de toutes les communes du Val d'Oise
@@ -67,7 +67,15 @@ def create_hash
 	end
 end
 
-create_hash
+
+
+def perform
+	get_the_email_of_a_townhal_from_its_webpage
+	get_all_the_urls_of_val_doise_townhalls
+	create_hash
+end
+
+perform
 
  
 
